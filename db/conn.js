@@ -12,4 +12,10 @@ mongoose.connect(DB,{
  })
  .catch((error)=>{
      console.log("not connected");
- })
+ })   
+
+
+
+
+
+ 

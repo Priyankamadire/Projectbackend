@@ -77,14 +77,18 @@
 // })
    
 
-
+const cors = require('cors');
 const dotenv = require("dotenv");
 const { Router } = require('express');
 const express = require('express')
 const mongoose = require('mongoose');
 const { route } = require('./router/work');
+const bodyParser = require("body-parser");
+const logger = require("morgan");
+
 const app= express()
 // const jwt = require('jsonwebtoken');
+
 app.use(express.json());
 app.use(require('./router/work'));
 app.use(require('./router/admwork'));
@@ -94,12 +98,22 @@ app.use(require('./router/nework'));
 app.use(require('./router/postwork'));
 app.use(require('./router/applywork'));
 app.use(require('./router/hirework'));
+
 // app.use(require('./middleware/authenticate'));
  app.use(express.json());
 
 // app.use(route);
 
 
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     next();
+//   });
+
+app.use(cors());     
 
 const middleware =(req,res,next)=>{
     console.log('hello to middleware');
@@ -133,19 +147,6 @@ const Hire = require("./model/hireSchema");
 //         console.log(err);
 //     })
 // })
-
-// app.get("/wfaculty/get",(req,res)=>{
-//     Details.find((err,data)=>{
-//         if(err){
-//             res.send(500).send(err)
-//         }
-//         else{
-//             res.status(200).send(data);
-//         }
-//     });
-// })
-
-
 
 
 
