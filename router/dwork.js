@@ -4,16 +4,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require("dotenv");
 const mongoose = require('mongoose');
-
+const cors = require('cors');
+router.use(cors());
 mongoose.set('strictQuery', true);
 dotenv.config({path : './config.env'});
 
 require('../db/conn');
 const Detail = require("../model/detailSchema");
-// router.get('/home_page',(req,res)=>{
-//     res.send('hi from router js serveradmin');
-// })
-
 
 
    router.post('/wfaculty',async(req,res) =>{

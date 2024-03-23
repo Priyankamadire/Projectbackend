@@ -6,7 +6,8 @@ const dotenv = require("dotenv");
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 dotenv.config({path : './config.env'});
-
+const cors = require('cors'); 
+router.use(cors());
 require('../db/conn');
 const Hire  = require("../model/hireSchema");
 // router.get('/home_page',(req,res)=>{

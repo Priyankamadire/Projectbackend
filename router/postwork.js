@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 const cookie = require('cookie-parser');
 mongoose.set('strictQuery', true);
 dotenv.config({path : './config.env'});
-
+const cors = require('cors');
+router.use(cors()); 
 require('../db/conn');
 const Postjob = require("../model/postSchema");
 // router.get('/home_page',(req,res)=>{

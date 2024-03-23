@@ -7,8 +7,9 @@ const mongoose = require('mongoose');
 const authenticate = require('../middleware/authenticate');
 mongoose.set('strictQuery', true);
 dotenv.config({path : './config.env'});
-
-require('../db/conn');
+const cors = require('cors');
+router.use(cors()); 
+require('../db/conn'); 
 const Retaire = require("../model/retairSchema");
 // router.get('/home_page',(req,res)=>{
 //     res.send('hi from router js serveradmin');

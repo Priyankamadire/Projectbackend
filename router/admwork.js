@@ -4,8 +4,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require("dotenv");
 const mongoose = require('mongoose');
-
-mongoose.set('strictQuery', true);
+const cors = require('cors');
+router.use(cors()); 
+mongoose.set('strictQuery', true);   
 dotenv.config({path : './config.env'});
 
 require('../db/conn');

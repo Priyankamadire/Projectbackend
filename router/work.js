@@ -5,15 +5,19 @@ const bcrypt = require('bcryptjs');
 const dotenv = require("dotenv");
 const mongoose = require('mongoose');
 const authenticate = require("../middleware/authenticate");
+const JWT_SECRET_KEY = "MyKey";
+
 const cookie = require('cookie-parser') 
 mongoose.set('strictQuery', true);
 dotenv.config({path : './config.env'});
-
+const cors = require('cors');
+router.use(cors());
 require('../db/conn');
 const User = require("../model/userSchema");
 const Admin = require('../model/adminSchema');
 const Detail = require('../model/detailSchema');
 const Postjob = require("../model/postSchema");
+const New = require("../model/newworSchema");
 
 router.get('/',(req,res)=>{
     res.send('hi from router js');
@@ -77,7 +81,7 @@ router.post('/register',async(req,res) =>{
 
 router.post('/login',async(req,res)=>{
     try{
-        let token;
+        // let token;
         const {email,password} = req.body;
         if(!email || !password){
             return res.status(400).json({error:"fill complete data"})
@@ -87,16 +91,28 @@ router.post('/login',async(req,res)=>{
         if(userLogin){
             const isMatch = await bcrypt.compare(password,userLogin.password);
              token = await  userLogin.generateAuthToken();
-            console.log(token);
+             console.log(token);
+            
             res.cookie("jwtoken",token,{
                 expires:new Date(Date.now()+2589200000000),
                 httpOnly:true
             });
+            // const token = jwt.sign(
+            //   {
+            //     name: userLogin.name,
+            //     email: userLogin.email,
+            //   },
+            //   'secret123'
+            // )
+            // const token = jwt.sign({id:existingUser._id},JWT_SECRET_KEY,{
+            //   expiresIn: "20hr"
+            // });
              if(!isMatch){
                 res.status(412).json({message:"invalid passwordtry again "});
             }
             else{ 
             res.json({message:"login successfull"});
+           
             }
         }
         else{
@@ -157,6 +173,10 @@ router.get("/list", async (req, res) => {
 //       });
 //     }
 //   });
+
+
+
+
 router.get('/jobavai',(req,res)=>{
   Postjob.find((err,data)=>{
     if(err){
@@ -168,6 +188,27 @@ router.get('/jobavai',(req,res)=>{
   })
 })
 
-    
-module.exports = router;
 
+// User
+
+router.get('/myprofile',(req,res)=>{
+  User.find((err,data)=>{
+    if(err){
+      res.status(500).send(err);
+    }
+    else{
+      res.status(200).send(data);
+    }
+  })
+}) 
+
+
+
+
+router.get('/lout',(req,res)=>{
+  console.log("hello my logout");
+  res.clearCookie('jwtoken',{path:'/'})
+  res.status(200).send('User logout');
+});
+
+module.exports = router;
