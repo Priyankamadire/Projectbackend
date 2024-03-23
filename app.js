@@ -113,10 +113,10 @@ app.use(require('./router/hirework'));
 //     next();
 //   });
 
-app.use(cors());     
+// app.use(cors());     
 
 const middleware =(req,res,next)=>{
-    console.log('hello to middleware');
+    console.log('hello to middleware');   
     next();
 }
 // app.get('/',(req,res)=>{
