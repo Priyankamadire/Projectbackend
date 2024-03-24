@@ -19,7 +19,12 @@ app.use(require('./router/nework'));
 app.use(require('./router/postwork'));
 app.use(require('./router/applywork'));
 app.use(require('./router/hirework'));
+// app.use(require('./router/contactwork'));
 
+
+// app.use(require('./router/contactwork'));
+
+// app.use(require('./router/contactwork'));
 // app.use(require('./middleware/authenticate'));
  app.use(express.json());
 
@@ -41,6 +46,29 @@ app.get('/abcdef', (req, res) => {
     res.send("I am About priyanka");
 });
 
+app.post('/contact_', async (req, res) => {
+  try {
+      // Extract data from request body
+      const { name, email, message } = req.body;
+
+      // Create a new contact document
+      const newContact = new Contact({
+          name,
+          email,
+          message
+      });
+
+      // Save the contact document to the database
+      await newContact.save();
+
+      // Respond with success message
+      res.status(201).json({ message: 'Contact form submitted successfully' });
+  } catch (error) {
+      // Handle errors
+      console.error(error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 
 app.get('/jobavai',(req,res)=>{
     Postjob.find((err,data)=>{
@@ -83,7 +111,7 @@ const New= require('./model/newworSchema');
 const Postjob = require("./model/postSchema");
 const Apply = require("./model/applySchema");
 const Hire = require("./model/hireSchema");
-
+const Contact = require("./model/contactSchema");
 // app.get('/details',(req,res)=>{
 //     Detail.find().then((result)=>{
 //         res.send(result);
